@@ -1,6 +1,5 @@
 #include <iostream>
 #include "ImageProcessing.h"
-#include "main.h"
 #include "ClusterProcess.h"
 #include <cctype>
 

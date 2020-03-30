@@ -63,10 +63,11 @@ bool ImageProcessing::readImages(std::string baseName) {
         image[i] = (unsigned char*) new char*[rows];
         for (int j = 0; j < rows; ++j) {
             image_fs.read(reinterpret_cast<char *>(pix), 3);
-            float red=pix[0];
+            float red = pix[0];
             float green =pix[1];
             float blue = pix[2];
-            image[i][j] = new pixel(red,green,blue);
+            pixel *x = new pixel(red, green, blue);
+            image[i][j] = reinterpret_cast<char*>(pixel(red, green, blue));
         }
     }
     slices.push_back(image);

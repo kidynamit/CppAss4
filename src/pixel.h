@@ -10,10 +10,11 @@ namespace ZMMALE001 {
         float red;
         float green;
         float blue;
+        float grey;
         float pixelArray[3];
     public:
-        pixel();
-        pixel(float c);
+        //pixel();
+        //pixel(float c);
         pixel(float _r, float _g, float _b);
     };
 }
