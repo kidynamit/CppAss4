@@ -67,7 +67,7 @@ bool ImageProcessing::readImages(std::string baseName) {
             float green =pix[1];
             float blue = pix[2];
             pixel *x = new pixel(red, green, blue);
-            image[i][j] = reinterpret_cast<char*>(pixel(red, green, blue));
+            image[i][j] = reinterpret_cast<char*>(pixel(red, green, blue));//comfused
         }
     }
     slices.push_back(image);
