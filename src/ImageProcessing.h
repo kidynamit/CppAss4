@@ -10,6 +10,21 @@
 
 namespace ZMMALE001{
     class ImageProcessing{
+
+        struct pixel {
+        private:
+            float red;
+            float green;
+            float blue;
+            float grey;
+        public:
+            pixel(float _r, float _g, float _b){
+                grey = 0.21 * _r + 0.72 * _g + 0.07 * _b;
+                red=_r;
+                green=_g;
+                blue=_b;
+            }
+        };
     private:
         int rows,cols,intensity;
         std::vector<unsigned char **> slices;

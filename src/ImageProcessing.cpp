@@ -4,12 +4,10 @@
 #include <iostream>
 #include <fstream>
 #include "ImageProcessing.h"
-#include "pixel.h"
 #include <vector>
 #include <cstring>
 
 using ZMMALE001::ImageProcessing;
-using ZMMALE001::pixel;
 
 ImageProcessing::ImageProcessing(char *baseName){
     slices = std::vector<unsigned char **>(0);
@@ -58,19 +56,17 @@ bool ImageProcessing::readImages(std::string baseName) {
     std::string header_fname = "Gradient_Numbers_PPMS/" + baseName + ".ppm";
     std::ifstream image_fs(header_fname, std::ios::binary);
 
-    unsigned char** image = (unsigned char**) new char** [this->cols];
+    pixel** image = (pixel**) new pixel** [this->cols];
     for (int i = 0; i < cols; ++i) {
-        image[i] = (unsigned char*) new char*[rows];
+        image[i] = (pixel*) new pixel*[rows];
         for (int j = 0; j < rows; ++j) {
             image_fs.read(reinterpret_cast<char *>(pix), 3);
-            float red = pix[0];
-            float green =pix[1];
-            float blue = pix[2];
-            pixel *x = new pixel(red, green, blue);
-            image[i][j] = reinterpret_cast<char*>(pixel(red, green, blue));
+            char red = pix[0];
+            char green =pix[1];
+            char blue = pix[2];
+            image[i][j] = pixel(red, green, blue);
         }
     }
-    slices.push_back(image);
     image_fs.close();
 //    std::cout << "done\n";
     return true;
