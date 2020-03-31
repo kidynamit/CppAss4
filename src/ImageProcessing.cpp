@@ -65,14 +65,32 @@ bool ImageProcessing::readImages(std::string baseName) {
         image[i] = (pixel*) new pixel*[rows];
         for (int j = 0; j < rows; ++j) {
             image_fs.read(reinterpret_cast<char *>(pix), 3);
-            char red = pix[0];
-            char green =pix[1];
-            char blue = pix[2];
+            float red = pix[0];
+            float green =pix[1];
+            float blue = pix[2];
+           //auto *p = new pixel(red, green, blue);
             image[i][j] = pixel(red, green, blue);
+
         }
     }
+    for(int i=0; i<cols; i++)
+    {
+        for(int j=0; j<rows; j++)
+        {
+            std::cout<<image[i][j].getRed()<<image[i][j].getGreen()<<image[i][j].getBlue()<<" ";
+        }
+        std::cout<<"\n";
+    }
+
     image_fs.close();
 //    std::cout << "done\n";
     return true;
 }
 
+//
+//ImageProcessing::pixel &ZMMALE001::ImageProcessing::pixel::operator=(pixel *rhs) {
+//        red =rhs->red;
+//        green=rhs->green;
+//        blue=rhs->blue;
+//    return *this;
+//}
