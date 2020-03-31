@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 try {
     if (argc> 2 && argc < 9) {
         std::cout << "start proses.\n";
-        //ImageProcessing imageProcessing(argv[1]);
+        ImageProcessing imageProcessing(argv[1]);
         arg1=argv[1];
 
         if (std::string(argv[2]).compare("-o") == 0) {

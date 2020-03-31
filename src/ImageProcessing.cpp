@@ -14,12 +14,15 @@ ImageProcessing::ImageProcessing(char *baseName){
     std::cout<<"constructor\n";
     std::string temp = std::string(baseName);
     std::cout << "reading image\n";
-    std::string header_fname = "Gradient_Numbers_PPMS/" + temp + ".ppm";
+    //std::string header_fname = "Gradient_Numbers_PPMS/" + temp + ".ppm";
+    std::string header_fname = "Gradient_Numbers_PPMS/eight_1.ppm";
 
-    std::ifstream header_fs;
-    header_fs >> header_fname;
-    if(strcmp(header_fname.c_str(),"P6")!=0) throw ("Can't read input file");
+    std::ifstream header_fs(header_fname,std::ios::binary);
+    //header_fs >> header_fname;
+    //if(strcmp(header_fname.c_str(),"P6")!=0) throw ("Can't read input file");
     int r,c,i;
+    std::string k;
+    header_fs>> k;
     header_fs>> r;
     header_fs>> c;
     header_fs>> i;
@@ -53,7 +56,8 @@ bool ImageProcessing::readImages(std::string baseName) {
 
 
     unsigned char pix[3];
-    std::string header_fname = "Gradient_Numbers_PPMS/" + baseName + ".ppm";
+   // std::string header_fname = "Gradient_Numbers_PPMS/" + baseName + ".ppm";
+    std::string header_fname = "Gradient_Numbers_PPMS/eight_1.ppm";
     std::ifstream image_fs(header_fname, std::ios::binary);
 
     pixel** image = (pixel**) new pixel** [this->cols];
