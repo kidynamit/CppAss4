@@ -11,48 +11,39 @@
 namespace ZMMALE001{
     class ImageProcessing{
 
-        struct pixel : public std::error_code {
-        private:
-            float red;
-            float green;
-            float blue;
-            float grey;
-        public:
-            float getRed() const {
-                return red;
-            }
+        struct RGB {
 
-            float getGreen() const {
-                return green;
-            }
+            unsigned char red;
+            unsigned char green;
+            unsigned char blue;
+            unsigned char grey;
 
-            float getBlue() const {
-                return blue;
-            }
-
-            float getGrey() const {
-                return grey;
-            }
-
-        public:
-            pixel();
-            pixel(float _r, float _g, float _b){
-                red=_r;
-                green=_g;
-                blue=_b;
-                grey = 0.21 * _r + 0.72 * _g + 0.07 * _b;
-            }
-            ImageProcessing:: pixel&operator=(pixel *rhs);
+            RGB(): red(0),blue(0),green(0),grey(0){};
+//            pixel(long _r, long _g, long _b){
+//                red=_r;
+//                green=_g;
+//                blue=_b;
+//                grey = 0.21 * _r + 0.72 * _g + 0.07 * _b;
+//            }
+//            ImageProcessing:: pixel&operator=(pixel *rhs);
 
         };
     private:
-        int rows,cols,intensity;
-        std::vector<unsigned char **> slices;
+        unsigned int width,height,intensity;
+        std::vector<RGB> pixels;
     public:
+        void setRows(unsigned int width);
+
+        void setCols(unsigned int height);
+
+        ImageProcessing();
         ImageProcessing(char *baseName);
-        ~ImageProcessing();
-        ImageProcessing(const ImageProcessing &oldImage);
+        //~ImageProcessing();
+        //ImageProcessing(const ImageProcessing &oldImage);
         //ImageProcessing&operator=(const pixel &rhs);
+        RGB& get(unsigned int a, unsigned int b);
+        unsigned int getWidth();
+        unsigned int getHeight();
 
         bool readImages(std::string baseName);
     };
