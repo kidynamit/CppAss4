@@ -36,26 +36,18 @@ bool ImageProcessing::readImages(std::string baseName) {
                 Image img_ = readImage(string(filenameStr));
                 images.push_back( img_ );
                 processHist(img_);
-
             }
             else
                 // ignore
                 continue;
     }
-
-
-
 }
 
 // read a single image when given a filepath and return an image variable
 Image ImageProcessing::readImage(string fname){
 
-    int width_,height_;
-
     // read header
     std::ifstream header_fs(fname.c_str());
-    //header_fs >> header_fname;
-    //if(strcmp(header_fname.c_str(),"P6")!=0) throw ("Can't read input file");
     std::string magic_number,r,c,i;
     header_fs>> magic_number;
     if(magic_number!="P6") {
@@ -114,13 +106,6 @@ Image ImageProcessing::readImage(string fname){
     return temp;
 
 }
-
-
-//ImageProcessing::ImageProcessing() {
-//    width=0;
-//    height=0;
-//}
-
 
 void ImageProcessing::printHist() {
 
