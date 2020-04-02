@@ -41,3 +41,8 @@ unsigned int ZMMALE001::Image::getWidth() {
 RGB &ZMMALE001::Image::get(unsigned int a, unsigned int b) {
     return pixels[(b*width)+a];
 }
+
+ZMMALE001::Image::Image(int w, int h) {
+    width = w ;
+    height = h;
+}
