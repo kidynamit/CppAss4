@@ -20,7 +20,7 @@ namespace ZMMALE001{
         int numClusters, binSize;
         vector<Image> images;
 
-        Image readImage(string fname);
+        Image readImage(string baseName, string fname);
 
         bool readImages(string baseName);
 

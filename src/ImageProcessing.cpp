@@ -23,6 +23,7 @@ ImageProcessing::ImageProcessing(string base, int clusters, int bin) : baseName(
 
 // read all images from a given folder
 bool ImageProcessing::readImages(std::string baseName) {
+    std::cout<<"start reading in images"<<std::endl;
     // https://www.bfilipek.com/2019/04/dir-iterate.html#using-c17
     // iterate through all images in basename folder
     for (const auto& entry : fs::directory_iterator(baseName)) {
@@ -33,9 +34,9 @@ bool ImageProcessing::readImages(std::string baseName) {
             }
             else if (is_regular_file(entry)) {
                 // PPM file. read it  in as an image and add to this.images
-                Image img_ = readImage(string(filenameStr));
+                Image img_ = readImage( baseName, filenameStr);
                 images.push_back( img_ );
-                processHist(img_);
+                //processHist(img_);
             }
             else
                 // ignore
@@ -44,12 +45,15 @@ bool ImageProcessing::readImages(std::string baseName) {
 }
 
 // read a single image when given a filepath and return an image variable
-Image ImageProcessing::readImage(string fname){
+Image ImageProcessing::readImage(string baseName,string fname){
+
+    std::cout<<"read in new image"<<std::endl;
 
     // read header
-    std::ifstream header_fs(fname.c_str());
+    std::ifstream header_fs(baseName+"/"+fname);
     std::string magic_number,r,c,i;
-    header_fs>> magic_number;
+    header_fs >> magic_number;
+    //std::cout<<magic_number;
     if(magic_number!="P6") {
         header_fs.close();
         std::cerr << "Wrong image format";
@@ -86,7 +90,6 @@ Image ImageProcessing::readImage(string fname){
     // DEBUG CODE
 
     int p=0;
-    //unsigned int size = img.getRows() * img.getCols();
     for (unsigned int b = 0; b < temp.getHeight(); b++) {
         for (unsigned int a = 0; a < temp.getWidth(); a++) {
             if(p==32){
@@ -95,14 +98,13 @@ Image ImageProcessing::readImage(string fname){
             } else {
                 p++;
                 RGB &ref_colour = temp.get(a, b);
-                //std::cout << "RGB {" << (int) ref_colour.red << ", " << (int) ref_colour.green << ", "<< (int) ref_colour.blue << "}";
-                std::cout<< (int)ref_colour.grey<<" ";
+                std::cout << "RGB {" << (int) ref_colour.red << ", " << (int) ref_colour.green << ", "<< (int) ref_colour.blue << "}";
+                //std::cout<< (int)ref_colour.grey<<" ";
             }
-//           RGB& ref_colour = img.get(a, b);
-//           std::cout << "RGB {" << (int)ref_colour.red << ", " << (int)ref_colour.green << ", " << (int)ref_colour.blue << "}" << std::endl;
         }
     }
 
+    std::cout<<std::endl;
     return temp;
 
 }
@@ -116,6 +118,9 @@ void ImageProcessing::printHist() {
 }
 
 void ZMMALE001::ImageProcessing::processHist(Image image) {
-    //todo
+    //int binRange = 256/binSize;
+    //unsigned char** hist = (unsigned char**) new char** [binSize];
+
+
 
 }

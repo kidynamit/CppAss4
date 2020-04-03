@@ -23,18 +23,19 @@ int main(int argc, char *argv[]) {
     int bin=1;
     bool colour=false;
     try {
-        int i = 0;
+        baseName = argv[1];
+        int i = 1;
         while (argv[i] != NULL) {
-            if (std::string(argv[i]).compare("-o")) {
+            if (std::string(argv[i]).compare("-o")==0) {
                 output = argv[i + 1];
                 i++;
-            } else if (std::string(argv[i]).compare("-k")) {
-                output = argv[i + 1];
+            } else if (std::string(argv[i]).compare("-k")==0) {
+                clusters = std::stoi(argv[i + 1]);
                 i++;
-            } else if (std::string(argv[i]).compare("-bin")) {
-                output = argv[i + 1];
+            } else if (std::string(argv[i]).compare("-bin")==0) {
+                bin = std::stoi(argv[i + 1]);
                 i++;
-            } else if (std::string(argv[i]).compare("-colour")) {
+            } else if (std::string(argv[i]).compare("-colour")==0) {
                 colour = true;
             }
             i++;
