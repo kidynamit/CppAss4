@@ -18,6 +18,7 @@ namespace ZMMALE001{
     private:
         string baseName;
         int numClusters, binSize;
+        bool colour;
         vector<Image> images;
 
         Image readImage(string baseName, string fname);
@@ -26,7 +27,7 @@ namespace ZMMALE001{
 
     public:
         ImageProcessing();
-        ImageProcessing(string, int, int);
+        ImageProcessing(string, int, int, bool);
 
         void processAllHist();
         void printHist();

@@ -15,7 +15,7 @@ using ZMMALE001::ImageProcessing;
 using ZMMALE001::Image;
 using ZMMALE001::RGB;
 
-ImageProcessing::ImageProcessing(string base, int clusters, int bin) : baseName(base), numClusters(clusters), binSize(bin) {
+ImageProcessing::ImageProcessing(string base, int clusters, int bin , bool colour) : baseName(base), numClusters(clusters), binSize(bin), colour(colour) {
 
     // load all the images from <basename> folder and add to this.images
     readImages(base);
@@ -116,7 +116,7 @@ void ImageProcessing::printHist() {
 void ZMMALE001::ImageProcessing::processAllHist() {
     for(Image mage: images){
         std::cout<<"Image : "<< mage.getFilename()<<std::endl;
-        mage.processHist(binSize);
+        mage.processHist(binSize,colour);
         std::cout<< std::endl;
     }
 

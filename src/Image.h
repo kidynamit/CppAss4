@@ -30,6 +30,9 @@ namespace ZMMALE001{
 //        vector< vector<RGB> > hist_grey_bins;
 
         vector< vector<int> > hist_grey_bins;
+        vector< vector<int> > hist_red_bins;
+        vector< vector<int> > hist_green_bins;
+        vector< vector<int> > hist_blue_bins;
 
         std::string filename;
 
@@ -39,7 +42,7 @@ namespace ZMMALE001{
         Image(int w, int h, std::string fname);
 
         void addPixel(RGB pix);
-        void processHist(int bin_size);
+        void processHist(int bin_size, bool colour);
         const std::string &getFilename() const;
         unsigned int &getHeight();
         unsigned int &getWidth();
