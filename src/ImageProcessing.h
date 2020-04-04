@@ -28,7 +28,7 @@ namespace ZMMALE001{
         ImageProcessing();
         ImageProcessing(string, int, int);
 
-        void processHist(Image image);
+        void processAllHist();
         void printHist();
 
 

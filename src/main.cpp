@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
         ImageProcessing driver(string(baseName), clusters, bin);
 
         // print histogram (DEBUG)
-        driver.printHist();
+        driver.processAllHist();
 
         // classify the images
         // driver.classify();

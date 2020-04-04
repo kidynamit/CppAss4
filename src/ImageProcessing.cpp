@@ -8,6 +8,7 @@
 #include <vector>
 #include <cstring>
 #include <experimental/filesystem>
+#include <iomanip>
 
 namespace fs = std::experimental::filesystem;
 using ZMMALE001::ImageProcessing;
@@ -47,7 +48,7 @@ bool ImageProcessing::readImages(std::string baseName) {
 // read a single image when given a filepath and return an image variable
 Image ImageProcessing::readImage(string baseName,string fname){
 
-    std::cout<<"read in new image"<<std::endl;
+    std::cout<<"read in new image :"<< fname << std::endl;
 
     // read header
     std::ifstream header_fs(baseName+"/"+fname);
@@ -66,7 +67,7 @@ Image ImageProcessing::readImage(string baseName,string fname){
     int w = (atoi(c.c_str()));
 
     // create the image variable
-    Image temp(w,h);
+    Image temp(w,h,fname);
 
     //header_fs.ignore(,'\n');
 
@@ -89,19 +90,14 @@ Image ImageProcessing::readImage(string baseName,string fname){
 
     // DEBUG CODE
 
-    int p=0;
-    for (unsigned int b = 0; b < temp.getHeight(); b++) {
-        for (unsigned int a = 0; a < temp.getWidth(); a++) {
-            if(p==32){
-                std::cout<<std::endl;
-                p=0;
-            } else {
-                p++;
-                RGB &ref_colour = temp.get(a, b);
-                std::cout << "RGB {" << (int) ref_colour.red << ", " << (int) ref_colour.green << ", "<< (int) ref_colour.blue << "}";
-                //std::cout<< (int)ref_colour.grey<<" ";
-            }
+
+    for (unsigned int y = 0; y < temp.getHeight(); ++y) {
+        for (unsigned int x = 0; x < temp.getWidth(); ++x) {
+                RGB &ref_colour = temp.get(x, y);
+                //std::cout << "RGB {" <<std::setw (3) <<(int) ref_colour.red << ", " <<std::setw (3) << (int) ref_colour.green << ", "<<std::setw (3) << (int) ref_colour.blue << "}";
+                std::cout<< std::setw (3) << (int)ref_colour.grey<<" ";
         }
+        std::cout<<std::endl;
     }
 
     std::cout<<std::endl;
@@ -117,10 +113,11 @@ void ImageProcessing::printHist() {
 
 }
 
-void ZMMALE001::ImageProcessing::processHist(Image image) {
-    //int binRange = 256/binSize;
-    //unsigned char** hist = (unsigned char**) new char** [binSize];
-
-
+void ZMMALE001::ImageProcessing::processAllHist() {
+    for(Image mage: images){
+        std::cout<<"Image : "<< mage.getFilename()<<std::endl;
+        mage.processHist(binSize);
+        std::cout<< std::endl;
+    }
 
 }

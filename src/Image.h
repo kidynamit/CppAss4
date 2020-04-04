@@ -27,20 +27,22 @@ namespace ZMMALE001{
     private:
         unsigned int width,height;
         vector<RGB> pixels;
-        //vector< vector<Images> > bins;
+//        vector< vector<RGB> > hist_grey_bins;
+
+        vector< vector<int> > hist_grey_bins;
+
+        std::string filename;
+
     public:
 
         Image();
-        Image(int w, int h);
+        Image(int w, int h, std::string fname);
 
         void addPixel(RGB pix);
-        void processHist(Image &image, int bin_size);
-
-
-        unsigned int getHeight();
-
-        unsigned int getWidth();
-
+        void processHist(int bin_size);
+        const std::string &getFilename() const;
+        unsigned int &getHeight();
+        unsigned int &getWidth();
         RGB &get(unsigned int a, unsigned int b);
     };
 }
