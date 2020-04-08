@@ -27,9 +27,21 @@ namespace ZMMALE001{
     private:
         unsigned int width,height;
         vector<RGB> pixels;
-//        vector< vector<RGB> > hist_grey_bins;
+        unsigned int clusterValue;
+    public:
+        unsigned int getClusterValue() const;
+
+    public:
+        void setClusterValue(unsigned int clusterValue);
+
+    private:
+
 
         vector< vector<int> > hist_grey_bins;
+    public:
+        const vector<vector<int>> &getHistGreyBins() const;
+
+    private:
         vector< vector<int> > hist_red_bins;
         vector< vector<int> > hist_green_bins;
         vector< vector<int> > hist_blue_bins;

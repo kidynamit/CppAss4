@@ -20,6 +20,10 @@ namespace ZMMALE001{
         int numClusters, binSize;
         bool colour;
         vector<Image> images;
+    public:
+        const vector<Image> &getImages() const;
+
+    private:
 
         Image readImage(string baseName, string fname);
 
@@ -30,10 +34,7 @@ namespace ZMMALE001{
         ImageProcessing(string, int, int, bool);
 
         void processAllHist();
-        void printHist();
-
-
-
+        void classify();
     };
 }
 

@@ -5,6 +5,7 @@
 #include <fstream>
 #include "ImageProcessing.h"
 #include "Image.h"
+#include "clustering.h"
 #include <vector>
 #include <cstring>
 #include <experimental/filesystem>
@@ -14,6 +15,7 @@ namespace fs = std::experimental::filesystem;
 using ZMMALE001::ImageProcessing;
 using ZMMALE001::Image;
 using ZMMALE001::RGB;
+using ZMMALE001::clustering;
 
 ImageProcessing::ImageProcessing(string base, int clusters, int bin , bool colour) : baseName(base), numClusters(clusters), binSize(bin), colour(colour) {
 
@@ -95,21 +97,19 @@ Image ImageProcessing::readImage(string baseName,string fname){
         for (unsigned int x = 0; x < temp.getWidth(); ++x) {
                 RGB &ref_colour = temp.get(x, y);
                 //std::cout << "RGB {" <<std::setw (3) <<(int) ref_colour.red << ", " <<std::setw (3) << (int) ref_colour.green << ", "<<std::setw (3) << (int) ref_colour.blue << "}";
-                std::cout<< std::setw (3) << (int)ref_colour.grey<<" ";
+                //std::cout<< std::setw (3) << (int)ref_colour.grey<<" ";
+                if((int)ref_colour.grey>100)
+                {
+                    std::cout<< std::setw (3) << (int)ref_colour.grey;
+                } else{
+                    std::cout<<std::setw(3)<<" ";
+                }
         }
         std::cout<<std::endl;
     }
 
     std::cout<<std::endl;
-    return temp;
-
-}
-
-void ImageProcessing::printHist() {
-
-    // process the histogram
-
-
+    return temp;// todo why return this
 
 }
 
@@ -121,3 +121,22 @@ void ZMMALE001::ImageProcessing::processAllHist() {
     }
 
 }
+
+void ZMMALE001::ImageProcessing::classify() {
+    clustering(numClusters,binSize);
+    for (int j = 0; j < numClusters; ++j) {
+        std::cout<<"Cluster : "<<j<<" ";
+        for (Image i:images){
+            if(i.getClusterValue()==j) {
+                std::cout<<"Image : "<< i.getFilename()<<" ";
+                std::cout <<i.getClusterValue()<< std::endl;
+            }
+        }
+    }
+}
+
+const vector<Image> &ZMMALE001::ImageProcessing::getImages() const {
+    return images;
+}
+
+

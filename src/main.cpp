@@ -1,7 +1,7 @@
 #include <iostream>
 #include "ImageProcessing.h"
 #include "Image.h"
-#include "ClusterProcess.h"
+#include "Clustering.h"
 #include <cctype>
 
 
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
         driver.processAllHist();
 
         // classify the images
-        // driver.classify();
+        driver.classify();
     }
     catch( std::invalid_argument& e)
             {
