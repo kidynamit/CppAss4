@@ -12,13 +12,13 @@ class centroid{
 
 private:
     int clusterNumber;
-    std::vector<double> centroid_hist_stored;
+
 
 public:
     centroid();
     centroid(const int,int);
     int getClusterNumber() const;
-
+    std::vector<int> centroid_hist_stored;
 };
 
 #endif //ASSIGNMENT_4_CENTROID_H

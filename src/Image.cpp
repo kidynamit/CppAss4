@@ -43,6 +43,10 @@ void Image::processHist(int bin_size, bool colour) {
 
         } // done with all pixels
 
+        for (int pixel_bin = 0; pixel_bin < hist_grey_bins.size(); ++pixel_bin) {
+            hist_grey_bins_count[pixel_bin]=hist_grey_bins[pixel_bin].size();
+        }
+
 
         // print the hist
         for (int pixel_bin = 0; pixel_bin < hist_grey_bins.size(); ++pixel_bin) {
@@ -52,6 +56,7 @@ void Image::processHist(int bin_size, bool colour) {
 ////                std::cout << p << " ";
 //                std::cout << "*";
 //            }
+
             std::cout<<hist_grey_bins[pixel_bin].size();
             std::cout << std::endl;
         }
@@ -166,9 +171,6 @@ void ZMMALE001::Image::setClusterValue(unsigned int clusterValue) {
     Image::clusterValue = clusterValue;
 }
 
-const vector<vector<int>> &ZMMALE001::Image::getHistGreyBins() const {
-    return hist_grey_bins;
-}
 
 unsigned int ZMMALE001::Image::getClusterValue() const {
     return clusterValue;

@@ -28,28 +28,15 @@ namespace ZMMALE001{
         unsigned int width,height;
         vector<RGB> pixels;
         unsigned int clusterValue;
-    public:
-        unsigned int getClusterValue() const;
 
-    public:
-        void setClusterValue(unsigned int clusterValue);
-
-    private:
-
-
-        vector< vector<int> > hist_grey_bins;
-    public:
-        const vector<vector<int>> &getHistGreyBins() const;
-
-    private:
         vector< vector<int> > hist_red_bins;
         vector< vector<int> > hist_green_bins;
         vector< vector<int> > hist_blue_bins;
-
+        vector< vector<int> > hist_grey_bins;
         std::string filename;
 
     public:
-
+        vector<int> hist_grey_bins_count;
         Image();
         Image(int w, int h, std::string fname);
 
@@ -59,6 +46,8 @@ namespace ZMMALE001{
         unsigned int &getHeight();
         unsigned int &getWidth();
         RGB &get(unsigned int a, unsigned int b);
+        void setClusterValue(unsigned int clusterValue);
+        unsigned int getClusterValue() const;
     };
 }
 #endif //ASSIGNMENT_4_IMAGE_H
