@@ -123,7 +123,8 @@ void ZMMALE001::ImageProcessing::processAllHist() {
 }
 
 void ZMMALE001::ImageProcessing::classify() {
-    clustering(numClusters,binSize);
+
+    clustering(numClusters,binSize,images);
     for (int j = 0; j < numClusters; ++j) {
         std::cout<<"Cluster : "<<j<<" ";
         for (Image i:images){

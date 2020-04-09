@@ -21,13 +21,13 @@ namespace ZMMALE001 {
         std::vector<centroid> clusters;
 
     public:
-        clustering(int,int);
+        clustering(int,int,vector<Image>);
 
         void cluster(int numClusters, int binSize, bool colour);
 
         double vectors_distance(const std::vector<int> &a, const std::vector<int> &b);
 
-        void kmean();
+        void kmean(vector<Image>*);
     };
 }
 #endif //ASSIGNMENT_4_CLUSTERING_H

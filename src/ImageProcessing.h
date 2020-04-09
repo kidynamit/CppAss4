@@ -8,10 +8,12 @@
 #include <vector>
 #include <string>
 #include "Image.h"
+#include "clustering.h"
 
 using std::string;
 using std::vector;
 
+//using ZMMALE001::clustering;
 namespace ZMMALE001{
     class ImageProcessing {
 
@@ -20,7 +22,9 @@ namespace ZMMALE001{
         int numClusters, binSize;
         bool colour;
         vector<Image> images;
+
     public:
+       // friend void ZMMALE001::clustering::kmean();
         const vector<Image> &getImages() const;
 
     private:
@@ -35,6 +39,7 @@ namespace ZMMALE001{
 
         void processAllHist();
         void classify();
+
     };
 }
 

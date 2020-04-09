@@ -8,10 +8,20 @@
 #include "Image.h"
 #include "clustering.h"
 #include "ImageProcessing.h"
+#include <iostream>
+#include <fstream>
+#include "ImageProcessing.h"
+#include "Image.h"
+#include "clustering.h"
+#include <vector>
+#include <cstring>
+#include <experimental/filesystem>
+#include <iomanip>
 
 using ZMMALE001::clustering;
 using ZMMALE001:: Image;
 using ZMMALE001:: ImageProcessing;
+using ZMMALE001::RGB;
 
 double clustering::vectors_distance(const std::vector<int> &a, const std::vector<int> &b) {
 //    std::vector<double>	auxiliary;
@@ -28,19 +38,19 @@ void clustering::cluster(int numClusters, int binSize, bool colour) {
 
 }
 
-ZMMALE001::clustering::clustering(int numClusters,int binSize) {
+ZMMALE001::clustering::clustering(int numClusters,int binSize,vector<Image> i) {
     for (int i = 0; i < numClusters; ++i) {
         centroid temp = centroid(binSize,i);
         clusters.push_back(temp);
     }
-    kmean();
+    kmean(i);
 }
 
-void ZMMALE001::clustering::kmean() {
+void ZMMALE001::clustering::kmean(vector<Image>* x) {
     centroid temp;
     Image tem;
-
-    for (Image i :images){
+    vector<Image> imag = x;
+    for (Image i: x){
         for (centroid c : clusters) {
             double vecter1= vectors_distance(tem.getHistGreyBins(),c);
             double vecter2 = vectors_distance(i,c);
