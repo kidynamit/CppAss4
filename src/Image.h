@@ -24,6 +24,8 @@ namespace ZMMALE001{
     };
 
     class Image{
+        friend class ImageProcessing;
+        friend class clustering;
     private:
         unsigned int width,height;
         vector<RGB> pixels;
@@ -34,9 +36,9 @@ namespace ZMMALE001{
         vector< vector<int> > hist_blue_bins;
         vector< vector<int> > hist_grey_bins;
         std::string filename;
+        vector<int> hist_grey_bins_count;
 
     public:
-        vector<int> hist_grey_bins_count;
         Image();
         Image(int w, int h, std::string fname);
 

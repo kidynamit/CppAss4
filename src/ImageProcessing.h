@@ -17,20 +17,14 @@ using std::vector;
 namespace ZMMALE001{
     class ImageProcessing {
 
+friend class clustering;
+
     private:
         string baseName;
         int numClusters, binSize;
         bool colour;
         vector<Image> images;
-
-    public:
-       // friend void ZMMALE001::clustering::kmean();
-        const vector<Image> &getImages() const;
-
-    private:
-
         Image readImage(string baseName, string fname);
-
         bool readImages(string baseName);
 
     public:

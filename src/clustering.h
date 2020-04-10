@@ -32,6 +32,7 @@ namespace ZMMALE001 {
         vector<int> vectors_sum(const vector<int> &a, const vector<int> &b);
 
         vector<int> vector_divide(const vector<int> &a, int b);
+        clustering &operator+=(const vector<Image>& rhs);
     };
 }
 #endif //ASSIGNMENT_4_CLUSTERING_H

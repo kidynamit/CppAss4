@@ -23,3 +23,7 @@ centroid::centroid(const int binSize,int i) {
 int centroid::getClusterNumber() const {
     return clusterNumber;
 }
+
+centroid::centroid() {
+
+}

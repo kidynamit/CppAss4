@@ -13,7 +13,6 @@ class centroid{
 private:
     int clusterNumber;
 
-
 public:
     centroid();
     centroid(const int,int);

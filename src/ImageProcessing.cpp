@@ -5,9 +5,7 @@
 #include <fstream>
 #include "ImageProcessing.h"
 #include "Image.h"
-#include "clustering.h"
 #include <vector>
-#include <cstring>
 #include <experimental/filesystem>
 #include <iomanip>
 
@@ -115,29 +113,27 @@ Image ImageProcessing::readImage(string baseName,string fname){
 
 void ZMMALE001::ImageProcessing::processAllHist() {
     for(Image mage: images){
+       // std::cout<<mage.hist_grey_bins.at(0).at(0);
         std::cout<<"Image : "<< mage.getFilename()<<std::endl;
         mage.processHist(binSize,colour);
         std::cout<< std::endl;
+        //std::cout<<mage.hist_grey_bins_count.at(0);
+        //std::cout<<images.at(0).hist_grey_bins_count.at(0);
     }
-
 }
 
 void ZMMALE001::ImageProcessing::classify() {
-
     clustering(numClusters,binSize,images);
     for (int j = 0; j < numClusters; ++j) {
         std::cout<<"Cluster : "<<j<<" ";
         for (Image i:images){
+
             if(i.getClusterValue()==j) {
                 std::cout<<"Image : "<< i.getFilename()<<" ";
                 std::cout <<i.getClusterValue()<< std::endl;
             }
         }
     }
-}
-
-const vector<Image> &ZMMALE001::ImageProcessing::getImages() const {
-    return images;
 }
 
 

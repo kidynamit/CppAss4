@@ -1,22 +1,11 @@
 //
 // Created by User on 2020-04-06.
 //
-#include <algorithm>
 #include <vector>
 #include <cmath>
-#include <numeric>
 #include "Image.h"
 #include "clustering.h"
 #include "ImageProcessing.h"
-#include <iostream>
-#include <fstream>
-#include "ImageProcessing.h"
-#include "Image.h"
-#include "clustering.h"
-#include <vector>
-#include <cstring>
-#include <experimental/filesystem>
-#include <iomanip>
 
 using ZMMALE001::clustering;
 using ZMMALE001:: Image;
@@ -69,7 +58,7 @@ void ZMMALE001::clustering::kmean(vector<Image> &images) {
         // ----- step 4
 
         centroid temp_cluster;
-        for (Image img : images){
+        for (Image img :images){
 
             temp_cluster = clusters.at(0);
 
@@ -87,7 +76,8 @@ void ZMMALE001::clustering::kmean(vector<Image> &images) {
             img.setClusterValue(temp_cluster.getClusterNumber());
         }
 
-        vector<int> sum = 0;
+        vector<int> sum;
+        //std::fill(sum.begin(), sum.end(), 0);
         int count_images_in_cluster = 0;
 
         // ----- step 5
@@ -99,7 +89,8 @@ void ZMMALE001::clustering::kmean(vector<Image> &images) {
 
                 if (img.getClusterValue() == c.getClusterNumber()){
                     // this image is part of this cluster
-                    sum += vectors_sum(sum, img.hist_grey_bins_count);
+                    //sum=vectors_sum(sum, img.hist_grey_bins_count);
+                    sum=vectors_sum(sum,vectors_sum(sum, img.hist_grey_bins_count));
                     count_images_in_cluster++;
                 }
             }
@@ -110,7 +101,7 @@ void ZMMALE001::clustering::kmean(vector<Image> &images) {
             //     not_yet = false;
             // }
 
-            c = avg;
+            c.centroid_hist_stored = avg;
         } // end of for loop to recalculate the centroids.
 
     } // end of k-means iteration
@@ -140,3 +131,9 @@ vector<int> clustering::vector_divide(const std::vector<int> &a, int b) {
 
     return div;
 }
+
+clustering &ZMMALE001::clustering::operator+=(const vector<Image> &rhs) {
+    return *this;
+}
+
+

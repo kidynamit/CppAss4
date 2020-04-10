@@ -44,7 +44,7 @@ void Image::processHist(int bin_size, bool colour) {
         } // done with all pixels
 
         for (int pixel_bin = 0; pixel_bin < hist_grey_bins.size(); ++pixel_bin) {
-            hist_grey_bins_count[pixel_bin]=hist_grey_bins[pixel_bin].size();
+            hist_grey_bins_count.push_back(hist_grey_bins[pixel_bin].size());
         }
 
 
