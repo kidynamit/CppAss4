@@ -30,6 +30,7 @@ ZMMALE001::clustering::clustering(int numClusters,int binSize,vector<Image> &ima
         centroid temp = centroid(binSize,i);
         clusters.push_back(temp);
     }
+
     kmean(images);
 }
 
@@ -58,14 +59,14 @@ void ZMMALE001::clustering::kmean(vector<Image> &images) {
         // ----- step 4
 
         centroid temp_cluster;
-        for (Image img :images){
-
+        for (int i=0;i<images.size();i++){
+            std::cout<<images.at(i).hist_grey_bins_count[0];
             temp_cluster = clusters.at(0);
 
             for (centroid clus : clusters) {
 
-                double vector_new_clus_to_img = vectors_distance(clus.centroid_hist_stored, img.hist_grey_bins_count);
-                double vector_curr_clus_to_img = vectors_distance(temp_cluster.centroid_hist_stored, img.hist_grey_bins_count);
+                double vector_new_clus_to_img = vectors_distance(clus.centroid_hist_stored, images.at(i).hist_grey_bins_count);
+                double vector_curr_clus_to_img = vectors_distance(temp_cluster.centroid_hist_stored, images.at(i).hist_grey_bins_count);
 
                 if(vector_new_clus_to_img > vector_curr_clus_to_img){
                     continue;
@@ -73,11 +74,13 @@ void ZMMALE001::clustering::kmean(vector<Image> &images) {
                     temp_cluster=clus;
                 }
             }
-            img.setClusterValue(temp_cluster.getClusterNumber());
+            images.at(i).setClusterValue(temp_cluster.getClusterNumber());
         }
 
+
         vector<int> sum;
-        //std::fill(sum.begin(), sum.end(), 0);
+
+        std::fill(sum.begin(), sum.end(), 0);
         int count_images_in_cluster = 0;
 
         // ----- step 5
@@ -85,12 +88,12 @@ void ZMMALE001::clustering::kmean(vector<Image> &images) {
         for (centroid &c : clusters)
         {
             // find all images with centroid = c
-            for (Image img : images){
+            for (int i=0;i<images.size();i++){
 
-                if (img.getClusterValue() == c.getClusterNumber()){
+                if (images.at(i).getClusterValue() == c.getClusterNumber()){
                     // this image is part of this cluster
                     //sum=vectors_sum(sum, img.hist_grey_bins_count);
-                    sum=vectors_sum(sum,vectors_sum(sum, img.hist_grey_bins_count));
+                    sum=vectors_sum(sum,vectors_sum(sum, images.at(i).hist_grey_bins_count));
                     count_images_in_cluster++;
                 }
             }

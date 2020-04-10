@@ -48,6 +48,8 @@ void Image::processHist(int bin_size, bool colour) {
         }
 
 
+
+
         // print the hist
         for (int pixel_bin = 0; pixel_bin < hist_grey_bins.size(); ++pixel_bin) {
             int amount = (bin_size + (pixel_bin * bin_size));
@@ -60,6 +62,7 @@ void Image::processHist(int bin_size, bool colour) {
             std::cout<<hist_grey_bins[pixel_bin].size();
             std::cout << std::endl;
         }
+
         std::cout << std::endl << " ++++++ " << std::endl;
 
     } else {

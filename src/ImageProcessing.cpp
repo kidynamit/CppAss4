@@ -112,17 +112,27 @@ Image ImageProcessing::readImage(string baseName,string fname){
 }
 
 void ZMMALE001::ImageProcessing::processAllHist() {
-    for(Image mage: images){
-       // std::cout<<mage.hist_grey_bins.at(0).at(0);
-        std::cout<<"Image : "<< mage.getFilename()<<std::endl;
-        mage.processHist(binSize,colour);
+//    for(Image mage: images){
+//        std::cout<<"Image : "<< mage.getFilename()<<std::endl;
+//        mage.processHist(binSize,colour);
+//        std::cout<<mage.hist_grey_bins_count[0];
+//        std::cout<< std::endl;
+//
+//    }
+    for(int i=0;i<images.size();i++){
+        std::cout<<"Image : "<< images.at(i).getFilename()<<std::endl;
+        images.at(i).processHist(binSize,colour);
+        //std::cout<<images.at(i).hist_grey_bins_count[0];
         std::cout<< std::endl;
-        //std::cout<<mage.hist_grey_bins_count.at(0);
-        //std::cout<<images.at(0).hist_grey_bins_count.at(0);
+
     }
+
+    //std::cout<<images.at(0).hist_grey_bins_count[0];
+
 }
 
 void ZMMALE001::ImageProcessing::classify() {
+
     clustering(numClusters,binSize,images);
     for (int j = 0; j < numClusters; ++j) {
         std::cout<<"Cluster : "<<j<<" ";
