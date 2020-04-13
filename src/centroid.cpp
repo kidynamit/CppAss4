@@ -5,18 +5,23 @@
 #include "centroid.h"
 #include <cstdlib>
 #include <cmath>
-using ZMMALE001::Image;
+#include "ImageProcessing.h"
 
-centroid::centroid(const int binSize,int i) {
+using ZMMALE001::Image;
+using ZMMALE001::ImageProcessing;
+
+centroid::centroid(const int binSize,int i, vector<int> image) {
 
     clusterNumber =i;
 
-    int num_bins = ceil(255 / binSize);
-    for (int i = 0; i < num_bins; ++i) {
-        double v = rand()%100;
-        centroid_hist_stored.push_back(v);
+//    int num_bins = ceil(255 / binSize);
+//    for (int i = 0; i < num_bins; ++i) {
+//        double v = rand()%600;
+//        centroid_hist_stored.push_back(v);
+//
+//    }
+    centroid_hist_stored=image;
 
-    }
 
 }
 

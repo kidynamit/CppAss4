@@ -46,10 +46,6 @@ void Image::processHist(int bin_size, bool colour) {
         for (int pixel_bin = 0; pixel_bin < hist_grey_bins.size(); ++pixel_bin) {
             hist_grey_bins_count.push_back(hist_grey_bins[pixel_bin].size());
         }
-
-
-
-
         // print the hist
         for (int pixel_bin = 0; pixel_bin < hist_grey_bins.size(); ++pixel_bin) {
             int amount = (bin_size + (pixel_bin * bin_size));
@@ -113,6 +109,18 @@ void Image::processHist(int bin_size, bool colour) {
 
         } // done with all pixels
 
+        for (int pixel_bin = 0; pixel_bin < hist_red_bins.size(); ++pixel_bin) {
+            hist_red_bins_count.push_back(hist_red_bins[pixel_bin].size());
+        }
+        for (int pixel_bin = 0; pixel_bin < hist_green_bins.size(); ++pixel_bin) {
+            hist_green_bins_count.push_back(hist_green_bins[pixel_bin].size());
+        }
+        for (int pixel_bin = 0; pixel_bin < hist_blue_bins.size(); ++pixel_bin) {
+            hist_blue_bins_count.push_back(hist_blue_bins[pixel_bin].size());
+        }
+        hist_RBG_counts.insert(hist_RBG_counts.end(),hist_red_bins_count.begin(),hist_red_bins_count.end());
+        hist_RBG_counts.insert(hist_RBG_counts.end(),hist_green_bins_count.begin(),hist_green_bins_count.end());
+        hist_RBG_counts.insert(hist_RBG_counts.end(),hist_blue_bins_count.begin(),hist_blue_bins_count.end());
 
         // print the hist
         for (int pixel_bin = 0; pixel_bin < hist_red_bins.size(); ++pixel_bin) {

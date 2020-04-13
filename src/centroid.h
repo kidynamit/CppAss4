@@ -15,7 +15,7 @@ private:
 
 public:
     centroid();
-    centroid(const int,int);
+    centroid(const int,int,vector<int>);
     int getClusterNumber() const;
     std::vector<int> centroid_hist_stored;
 };

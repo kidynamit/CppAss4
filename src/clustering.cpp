@@ -25,16 +25,49 @@ void clustering::cluster(int numClusters, int binSize, bool colour) {
 
 }
 
-ZMMALE001::clustering::clustering(int numClusters,int binSize,vector<Image> &images) {
-    for (int i = 0; i < numClusters; ++i) {
-        centroid temp = centroid(binSize,i);
-        clusters.push_back(temp);
+ZMMALE001::clustering::clustering(int numClusters,int binSize,bool colour,vector<Image> &images) {
+
+    if (colour==false) {
+        vector<int> numbersUsed;
+        int count=0;
+        while (count <= numClusters) {
+            int r = rand() % 100;
+            if (std::find(numbersUsed.begin(), numbersUsed.end(), r) != numbersUsed.end()) {
+                /* numberUsed contains r */
+            } else {
+                /* numberUsed does not contain r */
+                numbersUsed.push_back(r);
+                vector<int> image = images.at(r).hist_grey_bins_count;
+                centroid temp = centroid(binSize, count, image);
+                clusters.push_back(temp);
+                count++;
+            }
+        }
+    } else{
+        vector<int> numbersUsed;
+        int count=0;
+        //int r=5;
+        while (count < numClusters) {
+            int r = rand() % 100;
+
+            if (std::find(numbersUsed.begin(), numbersUsed.end(), r) != numbersUsed.end()) {
+                /* numberUsed contains r */
+            } else {
+                /* numberUsed does not contain r */
+                numbersUsed.push_back(r);
+                vector<int> image = images.at(r).hist_RBG_counts;
+                centroid temp = centroid(binSize, count, image);
+                clusters.push_back(temp);
+                count++;
+               //r =r+10;
+            }
+        }
     }
 
-    kmean(images);
+    kmean(colour,images);
 }
 
-void ZMMALE001::clustering::kmean(vector<Image> &images) {
+void ZMMALE001::clustering::kmean(bool colour,vector<Image> &images) {
 
 //     ## K-Means Clustering
 //     1. Choose the number of clusters(K) and obtain the data points
@@ -46,71 +79,116 @@ void ZMMALE001::clustering::kmean(vector<Image> &images) {
 //     5. for each cluster j = 1..k
 //            - new centroid = mean of all points assigned to that cluster
 //     6. End
-
-
-
+if(colour==false) {
     int not_yet = 10;
 
-    while(not_yet)
-    {
+    while (not_yet) {
 
         not_yet--;
 
         // ----- step 4
 
         centroid temp_cluster;
-        for (int i=0;i<images.size();i++){
-            std::cout<<images.at(i).hist_grey_bins_count[0];
+        for (int i = 0; i < images.size(); i++) {
             temp_cluster = clusters.at(0);
 
-            for (centroid clus : clusters) {
+            for (int j = 0; j < clusters.size(); j++) {
 
-                double vector_new_clus_to_img = vectors_distance(clus.centroid_hist_stored, images.at(i).hist_grey_bins_count);
-                double vector_curr_clus_to_img = vectors_distance(temp_cluster.centroid_hist_stored, images.at(i).hist_grey_bins_count);
+                double vector_new_clus_to_img = vectors_distance(clusters.at(j).centroid_hist_stored,
+                                                                 images.at(i).hist_grey_bins_count);
+                double vector_curr_clus_to_img = vectors_distance(temp_cluster.centroid_hist_stored,
+                                                                  images.at(i).hist_grey_bins_count);
 
-                if(vector_new_clus_to_img > vector_curr_clus_to_img){
+                if (vector_new_clus_to_img > vector_curr_clus_to_img) {
                     continue;
-                }else{
-                    temp_cluster=clus;
+                } else {
+                    temp_cluster = clusters.at(j);
                 }
             }
             images.at(i).setClusterValue(temp_cluster.getClusterNumber());
+            newClusterMean(colour,images);
         }
 
+    } // end of k-means iteration
+} else{
+    int not_yet = 10;
 
-        vector<int> sum;
+    while (not_yet) {
 
-        std::fill(sum.begin(), sum.end(), 0);
-        int count_images_in_cluster = 0;
+        not_yet--;
 
+        // ----- step 4
+
+        centroid temp_cluster;
+        for (int i = 0; i < images.size(); i++) {
+            temp_cluster = clusters.at(0);
+
+            for (int j = 0; j < clusters.size(); j++) {
+
+                double vector_new_clus_to_img = vectors_distance(clusters.at(j).centroid_hist_stored,images.at(i).hist_RBG_counts);
+                double vector_curr_clus_to_img = vectors_distance(temp_cluster.centroid_hist_stored,images.at(i).hist_RBG_counts);
+
+                if (vector_new_clus_to_img > vector_curr_clus_to_img) {
+                    continue;
+                } else {
+                    temp_cluster = clusters.at(j);
+                }
+            }
+            images.at(i).setClusterValue(temp_cluster.getClusterNumber());
+            newClusterMean(colour,images);
+        }
+
+    } // end of k-means iteration
+}
+
+
+}
+void clustering:: newClusterMean(bool colour,vector<Image> &images){
+    if(colour==false) {
+        vector<int> sum(images.at(0).hist_grey_bins_count.size(), 0);
         // ----- step 5
 
-        for (centroid &c : clusters)
-        {
+        for (int c = 0; c < clusters.size(); c++) {
+            int count_images_in_cluster = 0;
+            sum = clusters.at(c).centroid_hist_stored;
             // find all images with centroid = c
-            for (int i=0;i<images.size();i++){
+            for (int i = 0; i < images.size(); i++) {
 
-                if (images.at(i).getClusterValue() == c.getClusterNumber()){
+                if (images.at(i).getClusterValue() == clusters.at(c).getClusterNumber()) {
                     // this image is part of this cluster
-                    //sum=vectors_sum(sum, img.hist_grey_bins_count);
-                    sum=vectors_sum(sum,vectors_sum(sum, images.at(i).hist_grey_bins_count));
+                    sum = vectors_sum(sum, images.at(i).hist_grey_bins_count);
+                    //sum=vectors_sum(sum,sum1);
                     count_images_in_cluster++;
                 }
             }
-            vector<int> avg = vector_divide(sum,count_images_in_cluster); // divide vector by the count.
+            if (count_images_in_cluster > 0) {
+                vector<int> avg = vector_divide(sum, count_images_in_cluster); // divide vector by the count.
+                clusters.at(c).centroid_hist_stored = avg;
+            }
+        }
+    }else{
+        vector<int> sum(images.at(0).hist_RBG_counts.size(), 0);
+        // ----- step 5
 
-            // TODO
-            // if (c == avg){
-            //     not_yet = false;
-            // }
+        for (int c = 0; c < clusters.size(); c++) {
+            int count_images_in_cluster = 0;
+            sum = clusters.at(c).centroid_hist_stored;
+            // find all images with centroid = c
+            for (int i = 0; i < images.size(); i++) {
 
-            c.centroid_hist_stored = avg;
-        } // end of for loop to recalculate the centroids.
-
-    } // end of k-means iteration
-
-
-
+                if (images.at(i).getClusterValue() == clusters.at(c).getClusterNumber()) {
+                    // this image is part of this cluster
+                    sum = vectors_sum(sum, images.at(i).hist_RBG_counts);
+                    //sum=vectors_sum(sum,sum1);
+                    count_images_in_cluster++;
+                }
+            }
+            if (count_images_in_cluster > 0) {
+                vector<int> avg = vector_divide(sum, count_images_in_cluster); // divide vector by the count.
+                clusters.at(c).centroid_hist_stored = avg;
+            }
+        }
+    }
 }
 
 vector<int> clustering::vectors_sum(const std::vector<int> &a, const std::vector<int> &b) {
@@ -129,14 +207,14 @@ vector<int> clustering::vector_divide(const std::vector<int> &a, int b) {
     vector<int> div(a.size(), 0);
 
     for (int i = 0; i <a.size(); ++i) {
-        div[i] = int(a[i] / b);
+        div[i] = int(a[i] / (b+1));
     }
 
     return div;
 }
 
-clustering &ZMMALE001::clustering::operator+=(const vector<Image> &rhs) {
-    return *this;
-}
+//clustering &ZMMALE001::clustering::operator+=(const vector<Image> &rhs) {
+//    return *this;
+//}
 
 

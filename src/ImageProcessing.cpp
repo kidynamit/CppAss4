@@ -131,19 +131,30 @@ void ZMMALE001::ImageProcessing::processAllHist() {
 
 }
 
-void ZMMALE001::ImageProcessing::classify() {
+void ZMMALE001::ImageProcessing::classify(string output) {
 
-    clustering(numClusters,binSize,images);
+    clustering(numClusters,binSize,colour,images);
+    if(output=="noOutputLoctation")
     for (int j = 0; j < numClusters; ++j) {
-        std::cout<<"Cluster : "<<j<<" ";
-        for (Image i:images){
-
+        std::cout<<"Cluster "<< j <<": ";
+        for (Image i: images){
             if(i.getClusterValue()==j) {
-                std::cout<<"Image : "<< i.getFilename()<<" ";
-                std::cout <<i.getClusterValue()<< std::endl;
+                std::cout<< i.getFilename()+", ";
+                //std::cout <<i.getClusterValue();
             }
         }
+        std::cout<<std::endl;
+    }
+    else{
+        //::ofstream ofs(output);
+        //ofs.write()
+        std::cout<<"yes";
     }
 }
+//template <typename T>
+//std::ostream &operator<<(std::ostream &os, const vector<Image>& images) {
+//    std::ofstream ofs ();
+//    return os;
+//}
 
 

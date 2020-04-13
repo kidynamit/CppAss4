@@ -17,8 +17,8 @@ int main(int argc, char *argv[]) {
     std::string format= "clusterer <dataset> [-o output] [-k n] [-bin b] [-color]";
 
     std::string baseName;
-    std::string output;
     //default
+    std::string output ="noOutputLoctation";
     int clusters=10;
     int bin=1;
     bool colour=false;
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
         driver.processAllHist();
 
         // classify the images
-        driver.classify();
+        driver.classify(output);
     }
     catch( std::invalid_argument& e)
             {
