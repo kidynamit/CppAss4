@@ -46,7 +46,7 @@ void Image::processHist(int bin_size, bool colour) {
         for (int pixel_bin = 0; pixel_bin < hist_grey_bins.size(); ++pixel_bin) {
             hist_grey_bins_count.push_back(hist_grey_bins[pixel_bin].size());
         }
-        // print the hist
+        //DEBUG CODE print the grey hist
         for (int pixel_bin = 0; pixel_bin < hist_grey_bins.size(); ++pixel_bin) {
             int amount = (bin_size + (pixel_bin * bin_size));
             std::cout << "bin number = " << pixel_bin << " (" << pixel_bin * bin_size << "," << amount-1 << ") >> ";
@@ -62,7 +62,7 @@ void Image::processHist(int bin_size, bool colour) {
         std::cout << std::endl << " ++++++ " << std::endl;
 
     } else {
-        //todo the colour hist
+        //If using colour hist
         int num_bins = ceil(255 / bin_size);
         for (int i = 0; i < num_bins + 1; ++i) {
             std::vector<int> v;
@@ -108,7 +108,7 @@ void Image::processHist(int bin_size, bool colour) {
 
 
         } // done with all pixels
-
+        // sets each count for each colour hist count bins
         for (int pixel_bin = 0; pixel_bin < hist_red_bins.size(); ++pixel_bin) {
             hist_red_bins_count.push_back(hist_red_bins[pixel_bin].size());
         }
@@ -118,11 +118,12 @@ void Image::processHist(int bin_size, bool colour) {
         for (int pixel_bin = 0; pixel_bin < hist_blue_bins.size(); ++pixel_bin) {
             hist_blue_bins_count.push_back(hist_blue_bins[pixel_bin].size());
         }
+        //concatiantes the count bins into a RGB historgram
         hist_RBG_counts.insert(hist_RBG_counts.end(),hist_red_bins_count.begin(),hist_red_bins_count.end());
         hist_RBG_counts.insert(hist_RBG_counts.end(),hist_green_bins_count.begin(),hist_green_bins_count.end());
         hist_RBG_counts.insert(hist_RBG_counts.end(),hist_blue_bins_count.begin(),hist_blue_bins_count.end());
 
-        // print the hist
+        //DEBUG CODE print each colour hist to see if values are correct in each bin of each colour
         for (int pixel_bin = 0; pixel_bin < hist_red_bins.size(); ++pixel_bin) {
             int amount = (bin_size + (pixel_bin * bin_size));
             std::cout << "bin number = " << pixel_bin << " (" << pixel_bin * bin_size << "," << amount << ") >> ";

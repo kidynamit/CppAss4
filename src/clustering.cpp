@@ -94,10 +94,8 @@ if(colour==false) {
 
             for (int j = 0; j < clusters.size(); j++) {
 
-                double vector_new_clus_to_img = vectors_distance(clusters.at(j).centroid_hist_stored,
-                                                                 images.at(i).hist_grey_bins_count);
-                double vector_curr_clus_to_img = vectors_distance(temp_cluster.centroid_hist_stored,
-                                                                  images.at(i).hist_grey_bins_count);
+                double vector_new_clus_to_img = vectors_distance(clusters.at(j).centroid_hist_stored,images.at(i).hist_grey_bins_count);
+                double vector_curr_clus_to_img = vectors_distance(temp_cluster.centroid_hist_stored,images.at(i).hist_grey_bins_count);
 
                 if (vector_new_clus_to_img > vector_curr_clus_to_img) {
                     continue;

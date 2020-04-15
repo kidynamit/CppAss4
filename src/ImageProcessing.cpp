@@ -5,7 +5,6 @@
 #include <fstream>
 #include "ImageProcessing.h"
 #include "Image.h"
-#include <vector>
 #include <experimental/filesystem>
 #include <iomanip>
 
@@ -19,7 +18,6 @@ ImageProcessing::ImageProcessing(string base, int clusters, int bin , bool colou
 
     // load all the images from <basename> folder and add to this.images
     readImages(base);
-
 }
 
 // read all images from a given folder
@@ -37,7 +35,6 @@ bool ImageProcessing::readImages(std::string baseName) {
                 // PPM file. read it  in as an image and add to this.images
                 Image img_ = readImage( baseName, filenameStr);
                 images.push_back( img_ );
-                //processHist(img_);
             }
             else
                 // ignore
@@ -88,9 +85,7 @@ Image ImageProcessing::readImage(string baseName,string fname){
     }
     header_fs.close();
 
-    // DEBUG CODE
-
-
+    // DEBUG CODE prints out the images
     for (unsigned int y = 0; y < temp.getHeight(); ++y) {
         for (unsigned int x = 0; x < temp.getWidth(); ++x) {
                 RGB &ref_colour = temp.get(x, y);
@@ -122,39 +117,26 @@ void ZMMALE001::ImageProcessing::processAllHist() {
     for(int i=0;i<images.size();i++){
         std::cout<<"Image : "<< images.at(i).getFilename()<<std::endl;
         images.at(i).processHist(binSize,colour);
-        //std::cout<<images.at(i).hist_grey_bins_count[0];
         std::cout<< std::endl;
-
     }
-
-    //std::cout<<images.at(0).hist_grey_bins_count[0];
-
 }
 
 void ZMMALE001::ImageProcessing::classify(string output) {
-
-    clustering(numClusters,binSize,colour,images);
-    if(output=="noOutputLoctation")
-    for (int j = 0; j < numClusters; ++j) {
-        std::cout<<"Cluster "<< j <<": ";
-        for (Image i: images){
-            if(i.getClusterValue()==j) {
-                std::cout<< i.getFilename()+", ";
-                //std::cout <<i.getClusterValue();
-            }
-        }
-        std::cout<<std::endl;
-    }
-    else{
-        //::ofstream ofs(output);
-        //ofs.write()
-        std::cout<<"yes";
-    }
+//
+//    clustering(numClusters,binSize,colour,images);
+//    for (int j = 0; j < numClusters; ++j) {
+//        std::cout<<"Cluster "<< j <<": ";
+//        for (Image i: images){
+//            if(i.getClusterValue()==j) {
+//                std::cout<< i.getFilename()+", ";
+//                //std::cout <<i.getClusterValue();
+//            }
+//        }
+//        std::cout<<std::endl;
+//    }
 }
-//template <typename T>
-//std::ostream &operator<<(std::ostream &os, const vector<Image>& images) {
-//    std::ofstream ofs ();
-//    return os;
-//}
 
+int ZMMALE001::ImageProcessing::getNumClusters() const {
+    return numClusters;
+}
 

@@ -14,16 +14,18 @@
 using std::string;
 using std::vector;
 
-//using ZMMALE001::clustering;
 namespace ZMMALE001{
     class ImageProcessing {
 
 friend class clustering;
-friend class centroid;
 
     private:
         string baseName;
         int numClusters, binSize;
+    public:
+        int getNumClusters() const;
+
+    private:
         bool colour;
         vector<Image> images;
         Image readImage(string baseName, string fname);
@@ -35,13 +37,11 @@ friend class centroid;
 
         void processAllHist();
         void classify(string output);
-//        template <typename  T>
-//        std::ostream& operator<<(std::ostream& os, const std::vector<T>& v){
-//
-//        }
-
-
-    };
+       friend std::ostream& operator<<(std::ostream& os, const ImageProcessing& kt);
+//       vector<Image> get_buffer() const {
+//           return images;
+//       }
+   };
 }
 
 #endif //ASSIGNMENT_4_IMAGEPROCESSING_H

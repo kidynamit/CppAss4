@@ -16,6 +16,7 @@
 
 namespace ZMMALE001 {
     class clustering {
+        friend class ImageProcessing;
 
     private:
         std::vector<centroid> clusters;
