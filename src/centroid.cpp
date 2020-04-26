@@ -13,6 +13,8 @@ using ZMMALE001::ImageProcessing;
 centroid::centroid(const int binSize,int i, vector<int> image) {
 
     clusterNumber =i;
+    sizeForSeeding=-1;
+    imageNumberSeeding=-1;
 
 //    int num_bins = ceil(255 / binSize);
 //    for (int i = 0; i < num_bins; ++i) {
@@ -31,4 +33,20 @@ int centroid::getClusterNumber() const {
 
 centroid::centroid() {
 
+}
+
+int centroid::getSizeForSeeding() const {
+    return sizeForSeeding;
+}
+
+void centroid::setSizeForSeeding(int sizeForSeeding) {
+    centroid::sizeForSeeding = sizeForSeeding;
+}
+
+int centroid::getImageNumberSeeding() const {
+    return imageNumberSeeding;
+}
+
+void centroid::setImageNumberSeeding(int imageNumberSeeding) {
+    centroid::imageNumberSeeding = imageNumberSeeding;
 }

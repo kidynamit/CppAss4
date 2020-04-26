@@ -23,22 +23,23 @@ int main(int argc, char *argv[]) {
     int bin=1;
     bool colour=false;
     bool otherMethod = false;
+
     try {
         baseName = argv[1];
         int i = 1;
         while (argv[i] != NULL) {
-            if (std::string(argv[i]).compare("-o")==0) {
+            if (std::string(argv[i])=="-o") {
                 output = argv[i + 1];
                 i++;
-            } else if (std::string(argv[i]).compare("-k")==0) {
+            } else if (std::string(argv[i])=="-k") {
                 clusters = std::stoi(argv[i + 1]);
                 i++;
-            } else if (std::string(argv[i]).compare("-bin")==0) {
+            } else if (std::string(argv[i])=="-bin") {
                 bin = std::stoi(argv[i + 1]);
                 i++;
-            } else if (std::string(argv[i]).compare("-colour")==0) {
+            } else if (std::string(argv[i])=="-colour") {
                 colour = true;
-            }else if (std::string(argv[i]).compare("-otherMethod")==0) {
+            }else if (std::string(argv[i])=="-otherMethod") {
                 otherMethod = true;
             }
             i++;
@@ -50,7 +51,7 @@ int main(int argc, char *argv[]) {
         driver.processAllHist();
 
         // classify the images
-        driver.classify(output);
+        driver.classify();
 
         //Out put of clusters
         if(output=="noOutputLoctation"){
@@ -74,7 +75,7 @@ std::ostream &ZMMALE001::operator<<(std::ostream &os, const ImageProcessing& kt)
 
     for (int j = 0; j < kt.getNumClusters(); ++j) {
         os<<"Cluster "<< j <<": ";
-        for (Image i: kt.images){
+        for (const Image& i: kt.images){
             if(i.getClusterValue()==j) {
                 os<< i.getFilename()+", ";
             }

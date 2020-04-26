@@ -26,43 +26,168 @@ void clustering::cluster(int numClusters, int binSize, bool colour) {
 }
 
 ZMMALE001::clustering::clustering(int numClusters,int binSize,bool colour,vector<Image> &images) {
-
-    if (colour==false) {
-        vector<int> numbersUsed;
-        int count=0;
-        while (count <= numClusters) {
-            int r = rand() % 100;
-            if (std::find(numbersUsed.begin(), numbersUsed.end(), r) != numbersUsed.end()) {
-                /* numberUsed contains r */
-            } else {
-                /* numberUsed does not contain r */
-                numbersUsed.push_back(r);
-                vector<int> image = images.at(r).hist_grey_bins_count;
-                centroid temp = centroid(binSize, count, image);
-                clusters.push_back(temp);
-                count++;
+//k_mean++ grey initiation
+    if(colour==false) {
+    int count =0;
+    int r = rand() % 100;
+    vector<int> image = images.at(r).hist_grey_bins_count;
+    centroid temp = centroid(binSize, count, image);
+    clusters.push_back(temp);
+    while(count<=numClusters) {
+        if (count == 0) {
+            int biggestDistance = 0;
+            int placement = 0;
+            for (int i = 0; i < images.size(); i++) {
+                int size = pow(vectors_distance(images.at(i).hist_grey_bins_count, clusters.at(0).centroid_hist_stored),2);
+                if (size > biggestDistance) {
+                    biggestDistance = size;
+                    placement = i;
+                }
             }
+            vector<int> image1 = images.at(placement).hist_grey_bins_count;
+            centroid temp1 = centroid(binSize, count, image1);
+            clusters.push_back(temp1);
+            count++;
+        } else{
+            for (int i = 0; i < images.size(); ++i) {
+                int closestCluster=0;
+                int clusterDistanceValue=0;
+                for (int j = 0; j < clusters.size(); ++j) {
+                     int newDistanceCluster=pow(vectors_distance(clusters.at(j).centroid_hist_stored,images.at(i).hist_grey_bins_count),2);
+                    if(newDistanceCluster<pow(vectors_distance(clusters.at(closestCluster).centroid_hist_stored,images.at(i).hist_grey_bins_count),2)){
+                        closestCluster=j;
+                        clusterDistanceValue=newDistanceCluster;
+                    }
+                }
+                if(clusters.at(closestCluster).getSizeForSeeding()==-1) {
+                    clusters.at(closestCluster).setSizeForSeeding(clusterDistanceValue);
+                    clusters.at(closestCluster).setImageNumberSeeding(i);
+                } else{
+                    if(clusters.at(closestCluster).getSizeForSeeding()<clusterDistanceValue){
+                        clusters.at(closestCluster).setSizeForSeeding(clusterDistanceValue);
+                        clusters.at(closestCluster).setImageNumberSeeding(i);
+                    }
+                }
+            }
+            int biggestSeedCluster=0;
+            int clusterNumber=0;
+            for (int k = 0; k < clusters.size(); ++k) {
+                if(clusters.at(k).getSizeForSeeding()>biggestSeedCluster){
+                    biggestSeedCluster=clusters.at(k).getSizeForSeeding();
+                    clusterNumber=k;
+                }
+            }
+            vector<int> image2 = images.at(clusters.at(clusterNumber).getImageNumberSeeding()).hist_grey_bins_count;
+            centroid temp1 = centroid(binSize, count, image2);
+            clusters.push_back(temp1);
+            for (int l = 0; l < clusters.size() ; ++l) {
+                clusters.at(l).setImageNumberSeeding(-1);
+                clusters.at(l).setSizeForSeeding(-1);
+            }
+            count++;
         }
-    } else{
-        vector<int> numbersUsed;
-        int count=0;
-        //int r=5;
-        while (count < numClusters) {
-            int r = rand() % 100;
-
-            if (std::find(numbersUsed.begin(), numbersUsed.end(), r) != numbersUsed.end()) {
-                /* numberUsed contains r */
-            } else {
-                /* numberUsed does not contain r */
-                numbersUsed.push_back(r);
-                vector<int> image = images.at(r).hist_RBG_counts;
-                centroid temp = centroid(binSize, count, image);
-                clusters.push_back(temp);
+    }
+    }else{
+        //colour k-mean++ initiation
+        int count =0;
+        //int r = rand() % 100;
+        int r=0;
+        vector<int> image = images.at(r).hist_RBG_counts;
+        centroid temp = centroid(binSize, count, image);
+        clusters.push_back(temp);
+        while(count<=numClusters) {
+            if (count == 0) {
+                int biggestDistance = 0;
+                int placement = 0;
+                for (int i = 0; i < images.size(); i++) {
+                    int size = pow(vectors_distance(images.at(i).hist_RBG_counts, clusters.at(0).centroid_hist_stored),2);
+                    if (size > biggestDistance) {
+                        biggestDistance = size;
+                        placement = i;
+                    }
+                }
+                vector<int> image1 = images.at(placement).hist_RBG_counts;
+                centroid temp1 = centroid(binSize, count, image1);
+                clusters.push_back(temp1);
                 count++;
-               //r =r+10;
+            } else{
+                for (int i = 0; i < images.size(); ++i) {
+                    int closestCluster=0;
+                    int clusterDistanceValue=0;
+                    for (int j = 0; j < clusters.size(); ++j) {
+                        int newDistanceCluster=pow(vectors_distance(clusters.at(j).centroid_hist_stored,images.at(i).hist_RBG_counts),2);
+                        if(newDistanceCluster<pow(vectors_distance(clusters.at(closestCluster).centroid_hist_stored,images.at(i).hist_RBG_counts),2)){
+                            closestCluster=j;
+                            clusterDistanceValue=newDistanceCluster;
+                        }
+                    }
+                    if(clusters.at(closestCluster).getSizeForSeeding()==-1) {
+                        clusters.at(closestCluster).setSizeForSeeding(clusterDistanceValue);
+                        clusters.at(closestCluster).setImageNumberSeeding(i);
+                    } else{
+                        if(clusters.at(closestCluster).getSizeForSeeding()<clusterDistanceValue){
+                            clusters.at(closestCluster).setSizeForSeeding(clusterDistanceValue);
+                            clusters.at(closestCluster).setImageNumberSeeding(i);
+                        }
+                    }
+                }
+                int biggestSeedCluster=0;
+                int clusterNumber=0;
+                for (int k = 0; k < clusters.size(); ++k) {
+                    if(clusters.at(k).getSizeForSeeding()>biggestSeedCluster){
+                        biggestSeedCluster=clusters.at(k).getSizeForSeeding();
+                        clusterNumber=k;
+                    }
+                }
+                vector<int> image2 = images.at(clusters.at(clusterNumber).getImageNumberSeeding()).hist_RBG_counts;
+                centroid temp1 = centroid(binSize, count, image2);
+                clusters.push_back(temp1);
+                for (int l = 0; l < clusters.size() ; ++l) {
+                    clusters.at(l).setImageNumberSeeding(-1);
+                    clusters.at(l).setSizeForSeeding(-1);
+                }
+                count++;
             }
         }
     }
+//// picking a random unique image to start grey initiation
+//    if (colour==false) {
+//        vector<int> numbersUsed;
+//        int count=0;
+//        while (count <= numClusters) {
+//            int r = rand() % 100;
+//            if (std::find(numbersUsed.begin(), numbersUsed.end(), r) != numbersUsed.end()) {
+//                /* numberUsed contains r */
+//            } else {
+//                /* numberUsed does not contain r */
+//                numbersUsed.push_back(r);
+//                vector<int> image = images.at(r).hist_grey_bins_count;
+//                centroid temp = centroid(binSize, count, image);
+//                clusters.push_back(temp);
+//                count++;
+//            }
+//        }
+//    } else{
+//        // picking a random unique image to start colour initiation
+//        vector<int> numbersUsed;
+//        int count=0;
+//        int r=5;
+//        while (count < numClusters) {
+//            //int r = rand() % 100;
+//
+//            if (std::find(numbersUsed.begin(), numbersUsed.end(), r) != numbersUsed.end()) {
+//                /* numberUsed contains r */
+//            } else {
+//                /* numberUsed does not contain r */
+//                numbersUsed.push_back(r);
+//                vector<int> image = images.at(r).hist_RBG_counts;
+//                centroid temp = centroid(binSize, count, image);
+//                clusters.push_back(temp);
+//                count++;
+//               r =r+10;
+//            }
+//        }
+//    }
 
     kmean(colour,images);
 }
@@ -80,7 +205,7 @@ void ZMMALE001::clustering::kmean(bool colour,vector<Image> &images) {
 //            - new centroid = mean of all points assigned to that cluster
 //     6. End
 if(colour==false) {
-    int not_yet = 10;
+    int not_yet = 1000;
 
     while (not_yet) {
 
@@ -155,7 +280,6 @@ void clustering:: newClusterMean(bool colour,vector<Image> &images){
                 if (images.at(i).getClusterValue() == clusters.at(c).getClusterNumber()) {
                     // this image is part of this cluster
                     sum = vectors_sum(sum, images.at(i).hist_grey_bins_count);
-                    //sum=vectors_sum(sum,sum1);
                     count_images_in_cluster++;
                 }
             }
@@ -177,7 +301,6 @@ void clustering:: newClusterMean(bool colour,vector<Image> &images){
                 if (images.at(i).getClusterValue() == clusters.at(c).getClusterNumber()) {
                     // this image is part of this cluster
                     sum = vectors_sum(sum, images.at(i).hist_RBG_counts);
-                    //sum=vectors_sum(sum,sum1);
                     count_images_in_cluster++;
                 }
             }
@@ -210,9 +333,5 @@ vector<int> clustering::vector_divide(const std::vector<int> &a, int b) {
 
     return div;
 }
-
-//clustering &ZMMALE001::clustering::operator+=(const vector<Image> &rhs) {
-//    return *this;
-//}
 
 

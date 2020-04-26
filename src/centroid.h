@@ -12,12 +12,21 @@ class centroid{
 
 private:
     int clusterNumber;
+    int sizeForSeeding;
+    int imageNumberSeeding;
+public:
+    int getImageNumberSeeding() const;
+
+    void setImageNumberSeeding(int imageNumberSeeding);
 
 public:
     centroid();
     centroid(const int,int,vector<int>);
     int getClusterNumber() const;
     std::vector<int> centroid_hist_stored;
+
+    int getSizeForSeeding() const;
+    void setSizeForSeeding(int sizeForSeeding);
 };
 
 #endif //ASSIGNMENT_4_CENTROID_H

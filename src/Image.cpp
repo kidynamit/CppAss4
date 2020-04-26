@@ -72,12 +72,14 @@ void Image::processHist(int bin_size, bool colour) {
         }
         for (RGB &pix : pixels) {
             // grey scale only
-            int upper = bin_size-1;
+            int upper_red = bin_size-1;
+            int upper_green = bin_size-1;
+            int upper_blue = bin_size-1;
 
             // bin_index = index of the bin in the histogram vector
             for (int bin_index = 0; bin_index < num_bins; ++bin_index) {
-                if (pix.red > upper) {
-                    upper += bin_size;
+                if (pix.red > upper_red) {
+                    upper_red += bin_size;
                     continue;
                 } else {
                     int redValue = pix.red;
@@ -86,8 +88,8 @@ void Image::processHist(int bin_size, bool colour) {
                 }
             }// done with one pixel
             for (int bin_index = 0; bin_index < num_bins; ++bin_index) {
-                if (pix.green > upper) {
-                    upper += bin_size;
+                if (pix.green > upper_green) {
+                    upper_green += bin_size;
                     continue;
                 } else {
                     int greenValue = pix.green;
@@ -96,8 +98,8 @@ void Image::processHist(int bin_size, bool colour) {
                 }
             }
             for (int bin_index = 0; bin_index < num_bins; ++bin_index) {
-                if (pix.blue > upper) {
-                    upper += bin_size;
+                if (pix.blue > upper_blue) {
+                    upper_blue += bin_size;
                     continue;
                 } else {
                     int blueValue = pix.blue;
@@ -118,7 +120,7 @@ void Image::processHist(int bin_size, bool colour) {
         for (int pixel_bin = 0; pixel_bin < hist_blue_bins.size(); ++pixel_bin) {
             hist_blue_bins_count.push_back(hist_blue_bins[pixel_bin].size());
         }
-        //concatiantes the count bins into a RGB historgram
+        //concatenates the count bins into a RGB histogram
         hist_RBG_counts.insert(hist_RBG_counts.end(),hist_red_bins_count.begin(),hist_red_bins_count.end());
         hist_RBG_counts.insert(hist_RBG_counts.end(),hist_green_bins_count.begin(),hist_green_bins_count.end());
         hist_RBG_counts.insert(hist_RBG_counts.end(),hist_blue_bins_count.begin(),hist_blue_bins_count.end());
@@ -126,7 +128,7 @@ void Image::processHist(int bin_size, bool colour) {
         //DEBUG CODE print each colour hist to see if values are correct in each bin of each colour
         for (int pixel_bin = 0; pixel_bin < hist_red_bins.size(); ++pixel_bin) {
             int amount = (bin_size + (pixel_bin * bin_size));
-            std::cout << "bin number = " << pixel_bin << " (" << pixel_bin * bin_size << "," << amount << ") >> ";
+            std::cout << "bin number = " << pixel_bin << " (" << pixel_bin * bin_size << "," << amount-1 << ") >> ";
             for (int p : hist_red_bins[pixel_bin]) {
                 std::cout << p << " ";
             }
@@ -134,7 +136,7 @@ void Image::processHist(int bin_size, bool colour) {
         }
         for (int pixel_bin = 0; pixel_bin < hist_green_bins.size(); ++pixel_bin) {
             int amount = (bin_size + (pixel_bin * bin_size));
-            std::cout << "bin number = " << pixel_bin << " (" << pixel_bin * bin_size << "," << amount << ") >> ";
+            std::cout << "bin number = " << pixel_bin << " (" << pixel_bin * bin_size << "," << amount-1 << ") >> ";
             for (int p : hist_green_bins[pixel_bin]) {
                 std::cout << p << " ";
             }
@@ -142,7 +144,7 @@ void Image::processHist(int bin_size, bool colour) {
         }
         for (int pixel_bin = 0; pixel_bin < hist_blue_bins.size(); ++pixel_bin) {
             int amount = (bin_size + (pixel_bin * bin_size));
-            std::cout << "bin number = " << pixel_bin << " (" << pixel_bin * bin_size << "," << amount << ") >> ";
+            std::cout << "bin number = " << pixel_bin << " (" << pixel_bin * bin_size << "," << amount-1 << ") >> ";
             for (int p : hist_blue_bins[pixel_bin]) {
                 std::cout << p << " ";
             }

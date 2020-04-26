@@ -36,11 +36,9 @@ friend class clustering;
         ImageProcessing(string, int, int, bool);
 
         void processAllHist();
-        void classify(string output);
-       friend std::ostream& operator<<(std::ostream& os, const ImageProcessing& kt);
-//       vector<Image> get_buffer() const {
-//           return images;
-//       }
+        void classify();
+        friend std::ostream& operator<<(std::ostream& os, const ImageProcessing& kt);
+
    };
 }
 
