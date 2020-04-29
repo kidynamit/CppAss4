@@ -22,10 +22,6 @@ friend class clustering;
     private:
         string baseName;
         int numClusters, binSize;
-    public:
-        int getNumClusters() const;
-
-    private:
         bool colour;
         vector<Image> images;
         Image readImage(string baseName, string fname);
@@ -34,7 +30,7 @@ friend class clustering;
     public:
         ImageProcessing();
         ImageProcessing(string, int, int, bool);
-
+        int getNumClusters() const;
         void processAllHist();
         void classify();
         friend std::ostream& operator<<(std::ostream& os, const ImageProcessing& kt);

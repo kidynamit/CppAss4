@@ -234,7 +234,7 @@ if(colour==false) {
 
     } // end of k-means iteration
 } else{
-    int not_yet = 10;
+    int not_yet = 100;
 
     while (not_yet) {
 

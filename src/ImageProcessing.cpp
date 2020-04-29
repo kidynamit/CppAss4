@@ -51,13 +51,13 @@ Image ImageProcessing::readImage(string baseName,string fname){
     std::ifstream header_fs(baseName+"/"+fname);
     std::string magic_number,r,c,i;
     header_fs >> magic_number;
-    //std::cout<<magic_number;
     if(magic_number!="P6") {
         header_fs.close();
         std::cerr << "Wrong image format";
         exit(1);
     }
     header_fs>> r;
+
     header_fs>> c;
     header_fs>> i;
     int h = (atoi(r.c_str()));
@@ -85,21 +85,21 @@ Image ImageProcessing::readImage(string baseName,string fname){
     }
     header_fs.close();
 
-    // DEBUG CODE prints out the images
-    for (unsigned int y = 0; y < temp.getHeight(); ++y) {
-        for (unsigned int x = 0; x < temp.getWidth(); ++x) {
-                RGB &ref_colour = temp.get(x, y);
-                //std::cout << "RGB {" <<std::setw (3) <<(int) ref_colour.red << ", " <<std::setw (3) << (int) ref_colour.green << ", "<<std::setw (3) << (int) ref_colour.blue << "}";
-                //std::cout<< std::setw (3) << (int)ref_colour.grey<<" ";
-                if((int)ref_colour.grey>100)
-                {
-                    std::cout<< std::setw (3) << (int)ref_colour.grey;
-                } else{
-                    std::cout<<std::setw(3)<<" ";
-                }
-        }
-        std::cout<<std::endl;
-    }
+    //// DEBUG CODE prints out the images
+//    for (unsigned int y = 0; y < temp.getHeight(); ++y) {
+//        for (unsigned int x = 0; x < temp.getWidth(); ++x) {
+//                RGB &ref_colour = temp.get(x, y);
+//                //std::cout << "RGB {" <<std::setw (3) <<(int) ref_colour.red << ", " <<std::setw (3) << (int) ref_colour.green << ", "<<std::setw (3) << (int) ref_colour.blue << "}";
+//                //std::cout<< std::setw (3) << (int)ref_colour.grey<<" ";
+//                if((int)ref_colour.grey>100)
+//                {
+//                    std::cout<< std::setw (3) << (int)ref_colour.grey;
+//                } else{
+//                    std::cout<<std::setw(3)<<" ";
+//                }
+//        }
+//        std::cout<<std::endl;
+//    }
 
     std::cout<<std::endl;
     return temp;// todo why return this
