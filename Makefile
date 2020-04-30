@@ -14,7 +14,7 @@ $(PROG) : $(OBJ)
 	$(CC) $(CCFLAGS) $(SRC) -o clusterer
 	
 .cpp.o:
-	$(CC) $(CCFLAGS) -c $< -o $@ $(LDFLAGS)
+	$(CC) $(CPPFLAGS) $< -o $@ $(LDFLAGS)
 
 depend:
 	$(CC) -M $(SRC) > incl.defs
